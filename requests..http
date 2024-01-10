@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/tasks/long-add
+Content-Type: application/json
+
+{
+  "a": 4,
+  "b": 5
+}
+
+###
+
+POST http://localhost:8080/api/tasks/fibonacci
+Content-Type: application/json
+
+{
+  "n": 10
+}
+
+###
+
+GET http://localhost:8080/api/tasks/84043f77-6f8b-42bf-835c-d0d8b8101690
+
