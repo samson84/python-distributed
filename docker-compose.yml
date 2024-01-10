@@ -10,6 +10,9 @@ services:
       - "8080:8080"
       - "8081:8081"
       - "8082:8082"
+    networks:
+      - public
+      - private
 
   server: 
     build:
@@ -22,6 +25,8 @@ services:
       CELERY_BROKER: amqp://guest:guest@broker:5672
       CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
       GUNICORN_HOST: :8000
+    networks:
+      - private
   
   worker:
     image: runtime
@@ -39,6 +44,8 @@ services:
     environment:
       CELERY_BROKER: amqp://guest:guest@broker:5672
       CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
+    networks:
+      - private
 
   celery-ui:
     image: runtime
@@ -52,6 +59,8 @@ services:
     environment:
       CELERY_BROKER: amqp://guest:guest@broker:5672
       CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
+    networks:
+      - private
 
   broker:
     image: rabbitmq:management
@@ -62,6 +71,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - private
 
   db:
     image: mongo
@@ -72,10 +83,15 @@ services:
       - "27017:27017"
     volumes: 
       - mongodb_data:/data/db:rw
+    networks:
+      - private
 
 networks:
-  default:
+  public:
     driver: bridge
+  private:
+    driver: bridge
+    internal: true
 
 volumes:
   mongodb_data: {}
