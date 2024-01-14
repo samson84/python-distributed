@@ -7,10 +7,10 @@ services:
     image: runtime
     command: ['gunicorn', '--config', './src/gunicorn.conf.py']
     ports:
-      - "8000:8000"
+      - "${HTTP_SERVER_PUBLIC_PORT}:8000"
     environment:
-      CELERY_BROKER: amqp://guest:guest@broker:5672
-      CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
+      CELERY_BROKER: ${CELERY_BROKER}
+      CELERY_BACKEND: ${CELERY_BACKEND}
       GUNICORN_HOST: 0.0.0.0:8000
     networks:
       - private
@@ -29,9 +29,10 @@ services:
       - '1' 
       - --loglevel
       - INFO
+      - --events
     environment:
-      CELERY_BROKER: amqp://guest:guest@broker:5672
-      CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
+      CELERY_BROKER: ${CELERY_BROKER}
+      CELERY_BACKEND: ${CELERY_BACKEND}
     networks:
       - private
 
@@ -43,10 +44,10 @@ services:
       - src.worker
       - flower
     ports:
-      - "5555:5555"
+      - "${CELERY_UI_PUBLIC_PORT}:5555"
     environment:
-      CELERY_BROKER: amqp://guest:guest@broker:5672
-      CELERY_BACKEND: mongodb://guest:guest@db:27017/?authMechanism=DEFAULT&authSource=admin
+      CELERY_BROKER: ${CELERY_BROKER}
+      CELERY_BACKEND: ${CELERY_BACKEND}
     networks:
       - public
       - private
@@ -54,12 +55,12 @@ services:
   broker:
     image: rabbitmq:management
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     expose:
       - "5672"
     ports:
-      - "15672:15672"
+      - "${RABBITMQ_UI_PUBLIC_PORT}:15672"
     networks:
       - public
       - private
@@ -67,10 +68,10 @@ services:
   db:
     image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: guest
-      MONGO_INITDB_ROOT_PASSWORD: guest
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
     ports:
-      - "27017:27017"
+      - "${MONGODB_PUBLIC_PORT}:27017"
     volumes: 
       - mongodb_data:/data/db:rw
     networks:
