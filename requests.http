@@ -1,0 +1,24 @@
+@base_url=http://localhost:8000
+
+POST {{base_url}}/api/tasks/long-add
+Content-Type: application/json
+
+{
+  "a": 4,
+  "b": 5
+}
+
+###
+
+POST {{base_url}}/api/tasks/fibonacci
+Content-Type: application/json
+
+{
+  "n": 10
+}
+
+###
+
+@task_id=d733ed00-304b-4439-85d3-b2ad980ad6cf
+GET {{base_url}}/api/tasks/{{task_id}}
+
