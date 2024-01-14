@@ -4,6 +4,13 @@ This project simply demonstrate how to use the [Celery Task Queue](https://docs.
 
 This is just a Demo to play little bit with Celery it is not intended to use in production.
 
+Stack:
+
+- [Python3](https://www.python.org/) (package manager: [Poetry](https://python-poetry.org/))
+- [Celery](https://docs.celeryq.dev/en/stable/index.html) (broker: [RabbitMQ](https://rabbitmq.com/), backend: [MongoDB](https://www.mongodb.com/), ui: [Flower](https://flower.readthedocs.io/en/latest/))
+- [Flask 3](https://flask.palletsprojects.com/) (wsgi: [Gunicorn](https://gunicorn.org/))
+- [Docker](https://www.docker.com/)
+
 ## Setup and run
 
 Install Docker Engine or Docker Desktop. Minimum Docker Engine version: `24.0.7`. [Install Docker](https://docs.docker.com/engine/install/).
